@@ -9,6 +9,6 @@ namespace TodoSQLRepository
 {
     public class TodoDbContext : DbContext
     {
-
+        //Todo implement context.
     }
 }
