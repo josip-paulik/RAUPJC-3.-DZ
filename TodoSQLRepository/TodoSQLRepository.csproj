@@ -52,15 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITodoRepository.cs" />
     <Compile Include="TodoDbContext.cs" />
+    <Compile Include="TodoItem.cs" />
     <Compile Include="TodoSQLRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\RAUPJC-2.DZ\Models\TodoItem.csproj">
-      <Project>{08de8064-6f7c-4798-ae23-ee777e78c593}</Project>
-      <Name>TodoItem</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
