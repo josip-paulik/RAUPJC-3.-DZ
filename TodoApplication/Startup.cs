@@ -62,7 +62,7 @@ namespace TodoApplication
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<ITodoRepository, TodoSqlRepository>();
-            services.AddScoped<TodoDbContext>(o => new TodoDbContext(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped(o => new TodoDbContext(Configuration.GetConnectionString("DefaultConnection")));
 
         }
 

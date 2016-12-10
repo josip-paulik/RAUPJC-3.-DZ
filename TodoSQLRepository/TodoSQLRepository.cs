@@ -19,106 +19,135 @@ namespace TodoSQLRepository
 
         public TodoItem Get(Guid todoId, Guid userId)
         {
-            var todoItem = _context.TodoItems.FirstOrDefault(i => i.Id == todoId);
-
-            if (!todoItem.Equals(null) && !userId.Equals(todoItem.Id))
+            //using (_context)
             {
-                throw new TodoAccessException("This user cannot access this item.");
+                var todoItem = _context.TodoItems.FirstOrDefault(i => i.Id.Equals(todoId));
+
+                if (!todoItem.Equals(null) && !userId.Equals(todoItem.Id))
+                {
+                    throw new TodoAccessException("This user cannot access this item.");
+                }
+
+                return todoItem;
             }
 
-            return todoItem;
+            
         }
 
         public void Add(TodoItem todoItem)
         {
-            if (_context.TodoItems.Select(i => i.Id).Contains(todoItem.Id))
+            //using (_context)
             {
-                throw new DuplicateTodoItemException("This item already exists.");
-            }
+                if (_context.TodoItems.Select(i => i.Id).Contains(todoItem.Id))
+                {
+                    throw new DuplicateTodoItemException("This item already exists.");
+                }
 
-            _context.TodoItems.Add(todoItem);
-            _context.SaveChanges();
+                _context.TodoItems.Add(todoItem);
+                _context.SaveChanges(); 
+            }
 
         }
 
         public bool Remove(Guid todoId, Guid userId)
         {
 
-            if (!todoId.Equals(userId))
+            //using (_context)
             {
-                throw new TodoAccessException("This user cannot access this item.");
+                if (!todoId.Equals(userId))
+                {
+                    throw new TodoAccessException("This user cannot access this item.");
+                }
+
+                var todoItem = _context.TodoItems.FirstOrDefault(i => i.Id.Equals(todoId));
+
+                if (todoItem == null)
+                {
+                    return false;
+                }
+
+                _context.TodoItems.Remove(todoItem);
+                _context.SaveChanges();
             }
-
-            var todoItem = _context.TodoItems.FirstOrDefault(i => i.Id.Equals(todoId));
-
-            if (todoItem == null)
-            {
-                return false;
-            }
-
-            _context.TodoItems.Remove(todoItem);
-            _context.SaveChanges();
 
             return true;
         }
 
         public void Update(TodoItem todoItem, Guid userId)
         {
-            if (!todoItem.Id.Equals(userId))
+            //using (_context)
             {
-                throw new TodoAccessException("User does not have access to this item.");
+                if (!todoItem.Id.Equals(userId))
+                {
+                    throw new TodoAccessException("User does not have access to this item.");
+                }
+
+
+                _context.TodoItems.AddOrUpdate(todoItem);
+                _context.SaveChanges(); 
             }
-
-
-           _context.TodoItems.AddOrUpdate(todoItem);
-            _context.SaveChanges();
         }
 
         public bool MarkAsCompleted(Guid todoId, Guid userId)
         {
-            if (!todoId.Equals(userId))
+            //using (_context)
             {
-                throw new TodoAccessException("User does not have access to this item.");
+                if (!todoId.Equals(userId))
+                {
+                    throw new TodoAccessException("User does not have access to this item.");
+                }
+
+                var item = _context.TodoItems.FirstOrDefault(i => i.Id.Equals(todoId));
+
+                if (item != null)
+                {
+                    item.MarkAsCompleted();
+                    Update(item, userId);
+                    return true;
+                }
+
+                return false; 
             }
-
-            var item = _context.TodoItems.FirstOrDefault(i => i.Id.Equals(todoId));
-
-            if (item != null)
-            {
-                item.MarkAsCompleted();
-                Update(item, userId);
-                return true;
-            }
-
-            return false;
         }
 
         public List<TodoItem> GetAll(Guid userId)
         {
-            return _context.TodoItems.Where(i => i.UserId.Equals(userId))
-                        .OrderByDescending(i => i.DateCreated)
-                        .ToList();
+            //using (_context)
+            {
+                return _context.TodoItems.Where(i => i.UserId.Equals(userId))
+                                .OrderByDescending(i => i.DateCreated)
+                                .ToList(); 
+            }
         }
 
         public List<TodoItem> GetActive(Guid userId)
         {
-            return _context.TodoItems.Where(i => i.UserId.Equals(userId) && !i.IsCompleted)
-                        .OrderByDescending(i => i.DateCreated)
-                        .ToList();
+            //using (_context)
+            {
+                return _context.TodoItems.Where(i => i.UserId.Equals(userId) && !i.IsCompleted)
+                                .OrderByDescending(i => i.DateCreated)
+                                .ToList(); 
+            }
         }
 
         public List<TodoItem> GetCompleted(Guid userId)
         {
-            return _context.TodoItems.Where(i => i.UserId.Equals(userId) && i.IsCompleted)
-                        .OrderByDescending(i => i.DateCreated)
-                        .ToList();
+            //using (_context)
+            {
+                return _context.TodoItems.Where(i => i.UserId.Equals(userId) && i.IsCompleted)
+                               .OrderByDescending(i => i.DateCreated)
+                               .ToList(); 
+            }
         }
 
         public List<TodoItem> GetFiltered(Func<TodoItem, bool> filterFunction, Guid userId)
         {
-            return _context.TodoItems.Where(filterFunction).Where(i => i.UserId.Equals(userId))
-                       .OrderByDescending(i => i.DateCreated)
-                       .ToList();
+            //using (_context)
+            {
+                return _context.TodoItems.Where(filterFunction).Where(i => i.UserId.Equals(userId))
+                               .OrderByDescending(i => i.DateCreated)
+                               .ToList(); 
+            }
         }
 
         public TodoSqlRepository(TodoDbContext context)
