@@ -1,5 +1,6 @@
 ﻿using GenericList;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
@@ -8,7 +9,10 @@ namespace Models
     /// </summary>
     public class TodoItem
     { 
-        public readonly Guid Id;
+
+        public Guid Id { get; set; }
+
+        [Required]
         public string Text { get; set; }
         public bool IsCompleted { get; set; }
         
@@ -25,11 +29,12 @@ namespace Models
         /// <summary>
         /// UserId that owns this TodoItem.
         /// </summary>
+        [Required]
         public Guid UserId { get; set; }
 
         public TodoItem(string text, Guid userId)
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
             Text = text;
             IsCompleted = false;
             DateCreated = DateTime.Now;
@@ -41,7 +46,21 @@ namespace Models
             
         }
 
-        
+        public override bool Equals(Object obj)
+        {
+            if (obj is TodoItem)
+            {
+                var item = (TodoItem) obj;
+                return item.Id.Equals(Id) && item.Id.Equals(Text);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode() + Text.GetHashCode();
+        }
 
         public void MarkAsCompleted()
         {

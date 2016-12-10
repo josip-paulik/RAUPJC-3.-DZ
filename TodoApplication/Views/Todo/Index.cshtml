@@ -1,0 +1,26 @@
+@using System.Threading.Tasks
+@using Models
+@model List<Models.TodoItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<form asp-action="Index">
+    <div class="form-horizontal">
+        @foreach (var item in Model)
+        {
+            <h1>@item.Text---@item.DateCreated</h1>
+        }
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

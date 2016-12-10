@@ -55,7 +55,6 @@
     <Compile Include="Exception classes\DuplicateTodoItemException.cs" />
     <Compile Include="ITodoRepository.cs" />
     <Compile Include="Exception classes\TodoAccessException.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="TodoDbContext.cs" />
     <Compile Include="TodoItem.cs" />
     <Compile Include="TodoSQLRepository.cs" />

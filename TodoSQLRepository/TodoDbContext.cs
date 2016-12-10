@@ -21,7 +21,8 @@ namespace TodoSQLRepository
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TodoItem>().HasKey(i => i.Id);
-            modelBuilder.Entity<TodoItem>().HasRequired(i => i.Text);
+            modelBuilder.Entity<TodoItem>().Property(i => i.Text).IsRequired();
+            
         }
     }
 }
