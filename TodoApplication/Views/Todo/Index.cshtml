@@ -21,7 +21,7 @@
         }
         else
         {
-            <a>Mark as completed</a>
+            <a asp-action="MarkAsCompleted" asp-route-Id="@item.Id" asp-route-UserId="@item.UserId">Mark as completed</a>
         }
 
     }

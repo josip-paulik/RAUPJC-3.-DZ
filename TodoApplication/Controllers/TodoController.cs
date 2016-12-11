@@ -49,6 +49,12 @@ namespace TodoApplication.Controllers
             return View(item);
         }
 
+        public async Task<IActionResult> MarkAsCompleted(TodoItem item)
+        {
+            _repository.MarkAsCompleted(item.Id, await GetCurrentUserIdAsync());
+            return RedirectToAction("Index");
+        }
+
         public async Task<Guid> GetCurrentUserIdAsync()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);

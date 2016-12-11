@@ -77,7 +77,9 @@ namespace TodoSQLRepository
         {
             //using (_context)
             {
-                if (!todoItem.Id.Equals(userId))
+                
+
+                if (!todoItem.UserId.Equals(userId))
                 {
                     throw new TodoAccessException("User does not have access to this item.");
                 }
@@ -92,12 +94,14 @@ namespace TodoSQLRepository
         {
             //using (_context)
             {
-                if (!todoId.Equals(userId))
+                
+
+                var item = _context.TodoItems.FirstOrDefault(i => i.Id.Equals(todoId));
+
+                if (!item.UserId.Equals(userId))
                 {
                     throw new TodoAccessException("User does not have access to this item.");
                 }
-
-                var item = _context.TodoItems.FirstOrDefault(i => i.Id.Equals(todoId));
 
                 if (item != null)
                 {
