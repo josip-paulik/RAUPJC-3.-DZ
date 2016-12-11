@@ -46,21 +46,7 @@ namespace Models
             
         }
 
-        public override bool Equals(Object obj)
-        {
-            if (obj is TodoItem)
-            {
-                var item = (TodoItem) obj;
-                return item.Id.Equals(Id) && item.Id.Equals(Text);
-            }
-
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode() + Text.GetHashCode();
-        }
+        
 
         public void MarkAsCompleted()
         {

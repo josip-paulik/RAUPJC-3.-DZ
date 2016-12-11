@@ -52,6 +52,7 @@ namespace TodoApplication
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -62,7 +63,9 @@ namespace TodoApplication
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<ITodoRepository, TodoSqlRepository>();
-            services.AddScoped(o => new TodoDbContext(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped(provider => new TodoDbContext(Configuration.GetConnectionString("DefaultConnection")));
+           
+
 
         }
 
