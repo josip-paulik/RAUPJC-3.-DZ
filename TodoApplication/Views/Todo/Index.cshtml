@@ -9,24 +9,16 @@
 
 <h2>Index</h2>
 
-<a asp-controller="Todo" asp-action="Add">Add new Todo item.</a>
-
+<div><a asp-controller="Todo" asp-action="Add">Add new Todo item.</a></div>
+<div><a asp-controller="Todo" asp-action="Completed">All completed items.</a></div>
 <div class="list">
     @foreach (var item in Model)
     {
-        <h1>@item.Text---@item.DateCreated</h1>
-        if (item.IsCompleted)
-        {
-            <span>This item is completed</span>
-        }
-        else
-        {
-            <a asp-action="MarkAsCompleted" asp-route-Id="@item.Id" asp-route-UserId="@item.UserId">Mark as completed</a>
-        }
-
+        <h1>@item.Text</h1>
+        <h5>Date created: @item.DateCreated.ToShortDateString()</h5>
+        <a asp-action="MarkAsCompleted" asp-route-Id="@item.Id" asp-route-UserId="@item.UserId">Mark as completed</a>
     }
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+

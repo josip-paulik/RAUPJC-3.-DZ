@@ -26,7 +26,14 @@ namespace TodoApplication.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = await GetCurrentUserIdAsync();    
-            var model = _repository.GetAll(userId);
+            var model = _repository.GetActive(userId);
+            return View(model);
+        }
+
+        public async Task<IActionResult> Completed()
+        {
+            var userId = await GetCurrentUserIdAsync();
+            var model = _repository.GetCompleted(userId);
             return View(model);
         }
 
@@ -36,19 +43,20 @@ namespace TodoApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(TodoItem item)
+        public async Task<IActionResult> Add(AddTodoViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var userId = await GetCurrentUserIdAsync();
-                var newItem = new TodoItem(item.Text, userId);
+                var newItem = new TodoItem(model.Text, userId);
                 _repository.Add(newItem);
                 return RedirectToAction("Index");
             }
 
-            return View(item);
+            return View(model);
         }
 
+        
         public async Task<IActionResult> MarkAsCompleted(TodoItem item)
         {
             _repository.MarkAsCompleted(item.Id, await GetCurrentUserIdAsync());

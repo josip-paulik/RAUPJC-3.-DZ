@@ -1,4 +1,4 @@
-﻿@model Models.TodoItem
+﻿@model AddTodoViewModel
 
 @{
     ViewBag.Title = "Add new Todo Item";
@@ -12,4 +12,8 @@
         Text: <input asp-for="Text"/> <span asp-validation-for="Text"></span> <br/>
         <input type="submit"/>
     </form>
+</div>
+<hr/>
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>

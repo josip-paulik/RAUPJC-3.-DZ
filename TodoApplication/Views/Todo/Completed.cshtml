@@ -1,0 +1,24 @@
+﻿@model List<Models.TodoItem>
+
+@{
+    ViewData["Title"] = "Completed items";
+}
+
+
+<h1>Completed items</h1>
+
+<div class="list">
+    @foreach (var item in Model)
+    {
+        <h1>@item.Text</h1>
+        <h5>Date created: @item.DateCreated.ToShortDateString()</h5>
+        <!-- Item is surely completed so there shouldn't be invalid operation exceptions.-->
+        <h5>Date completed: @item.DateCompleted.Value.ToShortDateString()</h5>
+
+    }
+</div>
+<hr/>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
