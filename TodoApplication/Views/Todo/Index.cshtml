@@ -1,3 +1,4 @@
+@using System.ComponentModel
 @using System.Threading.Tasks
 @using Models
 @model List<Models.TodoItem>
@@ -8,19 +9,24 @@
 
 <h2>Index</h2>
 
-<form asp-action="Index">
-    <div class="form-horizontal">
-        @foreach (var item in Model)
+<a asp-controller="Todo" asp-action="Add">Add new Todo item.</a>
+
+<div class="list">
+    @foreach (var item in Model)
+    {
+        <h1>@item.Text---@item.DateCreated</h1>
+        if (item.IsCompleted)
         {
-            <h1>@item.Text---@item.DateCreated</h1>
+            <span>This item is completed</span>
         }
-    </div>
-</form>
+        else
+        {
+            <a>Mark as completed</a>
+        }
+
+    }
+</div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
